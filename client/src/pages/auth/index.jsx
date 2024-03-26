@@ -72,17 +72,17 @@ const Auth = () => {
   return (
     <div className=" bg-slate-300/50 flex flex-col relative overflow-hidden">
       <Helmet>
-        <title>Top Shoe DZ - Connexion</title>
+        <title>Trendy Style - Connexion</title>
         <meta
           name="description"
-          content="Connectez-vous ou inscrivez-vous sur Top Shoe DZ pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
+          content="Connectez-vous ou inscrivez-vous sur Trendy Style pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
         />
 
         {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
-        <meta property="og:title" content="Top Shoe DZ - Connexion" />
+        <meta property="og:title" content="Trendy Style - Connexion" />
         <meta
           property="og:description"
-          content="Connectez-vous ou inscrivez-vous sur Top Shoe DZ pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
+          content="Connectez-vous ou inscrivez-vous sur Trendy Style pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
         />
         <meta
           property="og:image"
@@ -90,15 +90,15 @@ const Auth = () => {
         />
         <meta
           property="og:url"
-          content="https://topshoes-dz.pages.dev/account"
+          content="https://trendy-style.pages.dev/account"
         />
 
         {/* Balises Twitter Card pour le partage sur Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Top Shoe DZ - Connexion" />
+        <meta name="twitter:title" content="Trendy Style - Connexion" />
         <meta
           name="twitter:description"
-          content="Connectez-vous ou inscrivez-vous sur Top Shoe DZ pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
+          content="Connectez-vous ou inscrivez-vous sur Trendy Style pour accéder à votre compte, gérer vos commandes et profiter d'offres exclusives."
         />
         <meta
           name="twitter:image"

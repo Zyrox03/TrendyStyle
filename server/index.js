@@ -10,6 +10,7 @@ require("dotenv").config();
 const productsRoutes = require("./routes/products");
 const ordersRoutes = require("./routes/orders");
 const sendEmailNotification = require("./sendEmailNotification");
+const Store = require("./model/Store");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,7 +33,7 @@ app.use(
   helmet({ hsts: { maxAge: 31536000, includeSubDomains: true, preload: true } })
 );
 const corsOptions = {
-  // origin: "https://topshoes-dz.pages.dev",
+  origin: "https://trendy-style.pages.dev",
 };
 
 app.use(cors(corsOptions));
@@ -48,7 +49,7 @@ app.get("/", async (req, res) => {
     res.status(500).json({ message: "Error", error: error.message });
   }
 });
-
+ 
 app.use("/products", productsRoutes);
 app.use("/orders", ordersRoutes);
 
@@ -185,6 +186,25 @@ app.post("/contact", async (req, res) => {
     res.status(200).json({ message: "Message envoyé avec succès" });
   } catch (error) {
     res.status(500).json({ error: "Erreur interne du serveur" });
+  }
+});
+
+
+app.put('/stars', async (req, res) => {
+  try {
+    const { storeAdmin, stars } = req.body;
+    
+    // Find the store by name and update its star count
+    let updatedStore = await Store.findOneAndUpdate({ storeAdmin }, { stars }, { new: true });
+
+    if (!updatedStore) {
+      updatedStore = await Store.create({ storeAdmin, stars });
+    }
+
+    res.status(200).json({ message: "Star count updated successfully", updatedStarCount: updatedStore.stars });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error updating the stars count" });
   }
 });
 

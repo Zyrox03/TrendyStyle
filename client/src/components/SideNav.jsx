@@ -25,7 +25,7 @@ export const SideNav = ({ setOpenSideNav, openSideNav, isLanding }) => {
             to={"hero"}
             spy={true}
             smooth={true}
-            offset={0}
+            offset={-100}
             onClick={() => setOpenSideNav(false)}
           >
             <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
@@ -40,9 +40,22 @@ export const SideNav = ({ setOpenSideNav, openSideNav, isLanding }) => {
           </Link>
         )}
 
-        <Link to="/shop">
+      
+
+        <Link
+                      onClick={() => setOpenSideNav(false)}
+
+to="/category/femmes">
           <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
-            المتجر
+            قسم النساء
+          </li>
+        </Link>
+        <Link
+                      onClick={() => setOpenSideNav(false)}
+
+to="/category/enfants">
+          <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
+          قسم الاطفال
           </li>
         </Link>
 

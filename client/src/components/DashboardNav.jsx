@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"; 
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { setAdmin } from "../toolkit/authSlice";
@@ -25,8 +25,8 @@ export const DashboardNav = ({ activeLink, sidebar, setSidebar }) => {
 
         <div onClick={() => setDropDown(!dropdown)} className="">
           <img
-            className="w-10 h-10 rounded-full cursor-pointer"
-            src="/logo.jpg"
+            className=" h-10 object-cover cursor-pointer"
+            src="/logo.png"
             alt=""
           />
         </div>

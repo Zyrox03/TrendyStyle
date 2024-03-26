@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
-import { Feedback } from "../../components/LandingPage/Feedback";
-import { NavBar } from "../../components/NavBar";
+   import { NavBar } from "../../components/NavBar";
 import { SideNav } from "../../components/SideNav";
 import { Title } from "../../widgets/Title";
 import { ProductCard } from "../../widgets/ProductCard";
 import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
 import MetaPixel from "../../utils/meta/metaPixel";
-import { useParams } from "react-router-dom";
-const AllProducts = () => {
+import { useLocation } from "react-router-dom";
+const Search = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
   const productsList = useSelector((state) => state.products.items);
 
@@ -29,24 +28,14 @@ const AllProducts = () => {
 
   // category
 
-  const {category} =  useParams()
-  console.log('category',category)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const search = searchParams.get('search');
 
-let filteredProductList;
 
-if(!category) {
-  filteredProductList = productsList
-}else {
-  if(category === 'femmes'){
-    filteredProductList = productsList.filter(product => product.category === 'femmes')
-  }else if(category === 'enfants'){
-    filteredProductList = productsList.filter(product => product.category === 'enfants')
-  }else{
-  filteredProductList = productsList
-
-  }
-}
-
+  const filteredProductList = productsList.filter(product =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
 
 console.log('filteredProductList',filteredProductList)
   return (
@@ -97,11 +86,28 @@ console.log('filteredProductList',filteredProductList)
 
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
-      <div style={{ marginTop: "5em" }}>
+      <div style={{ marginTop: "8em" }}>
+
+
+      <div className="flex justify-center items-center mb-4">
+      <form action="/search" method="GET" className="relative w-fit text-center">
+  <input
+    type="text"
+    defaultValue={search}
+    name="search" 
+    placeholder="Search..."
+    className="bg-purple-700 text-white placeholder:text-white rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white focus:text-purple-700 transition-colors duration-300 ease-in-out"
+  />
+  <button type="submit" className="absolute left-2 top-1/2 -translate-y-1/2">
+    <i className="fa fa-search text-white"></i>
+  </button>
+</form>
+
+      </div>
+
         <div className="flex flex-col items-center gap-12 p-4 lg:p-8">
           <Title
-            title={`${!category ? 'منتجاتنا' : category === 'femmes' ? 'قسم النساء' : 'قسم الاطفال'}`}
-            sub_title={`${!category ? 'اكتشفوا الأناقة في كل تفصيل - مجموعة حصرية لكل أسلوب ومناسبة' : category === 'femmes' ? 'تألقي بأناقة لا مثيل لها - تشكيلة فريدة تتناسب مع جمالك الفريد ومختلف مناسباتك' :'مجموعة مميزة تجعل كل يوم مغامرة جديدة للأطفال'}`}
+            title="نتائج البحث"
           />
 
           {filteredProductList.length > 0 ? (
@@ -111,14 +117,13 @@ console.log('filteredProductList',filteredProductList)
               ))}
             </div>
           ) : (
-            <h3 className="text-lg ">المتجر فارغ في الوقت الحالي</h3>
+            <h3 className="text-lg "> {search} : لا توجد منتجات بالاسم </h3>
           )}
         </div>
       </div>
-      <Feedback />
       <Footer />
     </div>
   );
 };
 
-export default AllProducts;
+export default Search;

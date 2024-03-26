@@ -12,23 +12,27 @@ export const ImagesSwiper = ({ productImages }) => {
       autoplay: {
         delay: 5000,
       },
-
       pagination: {
-        el: ".pagination",
-        clickable: true,
-        renderBullet: function (index, className) {
-          return `<img
-          src=${
-            (productImages && productImages[index]?.image?.path) ||
-            "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
-          }
-          alt=""
-          class="${className} object-cover rounded-none w-full h-[100px] lg:h-40 span-col-1 border-2 border-purple-500 rounded-xl"
-        />
-       
-       `;
-        },
+        el: '.swiper-pagination',
+        clickable: true, // Enable pagination bullets clickable
       },
+
+      // pagination: {
+      //   el: ".pagination",
+      //   clickable: true,
+      //   renderBullet: function (index, className) {
+      //     return `<img
+      //     src=${
+      //       (productImages && productImages[index]?.image?.path) ||
+      //       "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
+      //     }
+      //     alt=""
+      //     class="${className} object-cover rounded-none w-full h-[100px] lg:h-40 span-col-1 border-2 border-purple-500 rounded-xl"
+      //   />
+       
+      //  `;
+      //   },
+      // },
 
       scrollbar: {
         el: ".swiper-scrollbar",
@@ -69,6 +73,8 @@ export const ImagesSwiper = ({ productImages }) => {
               ))
             )}
           </div>
+
+          <div className="swiper-pagination"></div>
         </div>
       </div>
       <div
@@ -78,7 +84,7 @@ export const ImagesSwiper = ({ productImages }) => {
     width: '80%',
     gap: 4,
   }}
-  className={`pagination mx-auto `}
+  // className={`pagination mx-auto `}
 ></div>
     </div>
   );

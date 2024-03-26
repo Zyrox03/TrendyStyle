@@ -27,6 +27,7 @@ const ProductDetailsAdmin = () => {
     initialValues: {
       name: product?.name || "",
       slug: product?.slug || "",
+      category: product?.category || "",
       price: product?.price || "",
       oldPrice: product?.oldPrice || "",
       description: product?.description || "",
@@ -40,6 +41,7 @@ const ProductDetailsAdmin = () => {
         /^[a-zA-Z0-9-]+$/,
         "Format de l'identifiant invalide"
       ),
+      category: Yup.string().required("Veuillez sélectionner une catégorie"),
       price: Yup.number().required("Le prix est obligatoire"),
       oldPrice: Yup.number().required("L'ancien prix est obligatoire"),
       description: Yup.string().required("La description est obligatoire"),
@@ -281,17 +283,17 @@ const ProductDetailsAdmin = () => {
         </title>
         <meta
           name="description"
-          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Top Shoe DZ. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
+          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Trendy Style. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
         />
 
         {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
         <meta
           property="og:title"
-          content="Top Shoe DZ - Gestion des Produits (Admin)"
+          content="Trendy Style - Gestion des Produits (Admin)"
         />
         <meta
           property="og:description"
-          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Top Shoe DZ. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
+          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Trendy Style. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
         />
         <meta
           property="og:image"
@@ -301,8 +303,8 @@ const ProductDetailsAdmin = () => {
           property="og:url"
           content={`${
             product
-              ? `https://topshoes-dz.pages.dev/admin/products/${product?.slug}`
-              : "https://topshoes-dz.pages.dev/admin/products/new"
+              ? `https://trendy-style.pages.dev/admin/products/${product?.slug}`
+              : "https://trendy-style.pages.dev/admin/products/new"
           }`}
         />
 
@@ -310,11 +312,11 @@ const ProductDetailsAdmin = () => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Top Shoe DZ - Gestion des Produits (Admin)"
+          content="Trendy Style - Gestion des Produits (Admin)"
         />
         <meta
           name="twitter:description"
-          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Top Shoe DZ. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
+          content="Ajoutez ou mettez à jour des produits sur le portail administratif de Trendy Style. Gérez les détails, les images et assurez-vous que votre inventaire est toujours à jour."
         />
         <meta
           name="twitter:image"
@@ -398,6 +400,40 @@ const ProductDetailsAdmin = () => {
               {formik.touched.slug && formik.errors.slug && (
                 <div className="text-red-500 text-sm mt-1">
                   {formik.errors.slug}
+                </div>
+              )}
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="category"
+                className="block text-sm font-semibold text-gray-600"
+              >
+                Categorie
+              </label>
+              <select
+                dir="rtl"
+                disabled={loading}
+                placeholder="Entrez l'dentifiant du produit"
+                id="category"
+                value={formik.values.category}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none ${
+                  formik.touched.category && formik.errors.category
+                    ? "border-red-500"
+                    : "focus:border-blue-500"
+                }`}
+              >
+    <option value="" disabled selected hidden>Veuillez sélectionner une catégorie</option>
+
+                <option value="aucun">aucun</option>
+                <option value="femmes">femmes</option>
+                <option value="enfants">enfants</option>
+
+              </select>
+              {formik.touched.category && formik.errors.category && (
+                <div className="text-red-500 text-sm mt-1">
+                  {formik.errors.category}
                 </div>
               )}
             </div>

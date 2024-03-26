@@ -8,9 +8,9 @@ const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
     // Make an HTTP request to your server API to get the products
     const response = await axios.get(`${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products`); // Update the URL based on your server route
 
-    const { products, specialOffer } = response.data;
+    const { products, specialOffer , stars} = response.data;
 
-    return { products, specialOffer };
+    return { products, specialOffer, stars };
   } catch (error) {
     console.log(error);
     throw error;
@@ -22,6 +22,7 @@ const productsSlice = createSlice({
   initialState: {
     items: [],
     specialOffer: null,
+    stars: 0
   },
   reducers: {
     // Additional actions for handling products can be defined here
@@ -35,21 +36,27 @@ const productsSlice = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+
+    setStarCounter: (state, action) => {
+      state.stars = action.payload;
+    },
+
   },
 
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
       // Update the state with the fetched products
-      const { products, specialOffer } = action.payload;
+      const { products, specialOffer, stars } = action.payload;
 
       state.items = products;
       state.specialOffer = specialOffer;
+      state.stars = stars;
     });
   },
 });
 
 // Export any additional actions if needed
 export { fetchProducts };
-export const { updateProducts, setSpecialOffer, setLoading } =
+export const { updateProducts, setSpecialOffer, setLoading , setStarCounter} =
   productsSlice.actions;
 export default productsSlice.reducer;

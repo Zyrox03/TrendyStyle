@@ -22,20 +22,15 @@ export const Footer = () => {
               className="inline-flex items-center gap-2"
             >
               <span className=" text-xl font-bold tracking-wide text-gray-100 uppercase">
-                Top Shoe DZ
+                Trendy Style
               </span>
-              <img
-                src="/logo.jpg"
-                alt="logo"
-                className="w-[60px] rounded-full "
-              />
+              
             </Link>
             <div className="mt-4 lg:max-w-sm">
-              <p className="text-md text-gray-300">
-                Top Shoe DZ مرحبًا بكم في
+              <p dir="ltr" className="text-sm  text-end text-gray-300">
+                Trendy Style مرحبًا بكم في
                 <br />
-                وجهتكم عبر الإنترنت للعثور على أحدث وأكثر الأحذية رواجًا وراحةً.
-                استعرضوا مجموعتنا الواسعة من الأحذية عالية الجودة.
+           وجهتكم عبر الإنترنت للعثور على أحدث وأكثر ملابس النساء والاطفال راحةً
               </p>
             </div>
           </div>
@@ -91,11 +86,11 @@ export const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col justify-between pt-5 pb-10 border-t border-deep-purple-accent-200 sm:flex-row">
-          <p className="text-sm text-gray-100">
-            © حقوق النشر 2024 TopShoeDZ Inc. جميع الحقوق محفوظة
+          <p className="text-sm  text-gray-100">
+            © حقوق النشر 2024 Trendy Style Inc. جميع الحقوق محفوظة
           </p>
           <div className="flex items-center mt-4 space-x-4 sm:mt-0">
-            <a href="https://web.facebook.com/profile.php?id=61552207858595">
+            <a href="https://web.facebook.com/">
               <i className=" text-3xl fa-brands text-white fa-square-facebook"></i>
             </a>
             {/* <i className=" text-3xl fa-brands text-white fa-instagram"></i> */}

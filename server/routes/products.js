@@ -9,18 +9,21 @@ const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const { storage } = require("../cloudinary");
 const SpecialOffer = require("../model/SpecialOffer");
+const Store = require("../model/Store");
 const upload = multer({ storage });
 
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
     const specialOffer = await SpecialOffer.find();
+    const {stars} = await Store.findOne();
 
     res
       .status(200)
       .json({
         products,
         specialOffer: specialOffer.length > 0 ? specialOffer[0] : null,
+        stars: stars || null,
       });
   } catch (error) {
     console.error(error);
@@ -79,10 +82,10 @@ router.post("/setup-special-offer/:slug", async (req, res) => {
 
 router.post("/", upload.array("imageFiles"), async (req, res) => {
   try {
-    const { name, slug, price, oldPrice, images, description, stock, size } =
+    const { name, slug, category, price, oldPrice, images, description, stock, size } =
       req.body;
     const newSlug = slug || slugify(name, { lower: true });
-
+    console.log(req.body?.category)
     // Attempt to parse the images property
     const parsedImages = JSON.parse(images);
     // Map over images and req.files to create the updatedImages array
@@ -105,6 +108,7 @@ router.post("/", upload.array("imageFiles"), async (req, res) => {
     const newProduct = new Product({
       name,
       slug: newSlug,
+      category,
       price,
       oldPrice,
       images: updatedImages,
@@ -137,8 +141,9 @@ router.post("/", upload.array("imageFiles"), async (req, res) => {
 router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
   try {
     const productSlug = req.params.slug;
-    const { name, slug, price, oldPrice, images, description, stock, size } =
+    const { name, slug, category, price, oldPrice, images, description, stock, size } =
       req.body;
+
 
     // Use slugify only when the slug is empty
     const newSlug = slug || slugify(name, { lower: true });
@@ -191,6 +196,7 @@ router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
         name,
         slug: newSlug,
         price,
+        category,
         oldPrice,
         images: mergedImages,
         description,

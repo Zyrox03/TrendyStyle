@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Button } from "../widgets/Button";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -6,27 +5,6 @@ import { Link as LinkScroll } from "react-scroll";
 import { useSelector } from "react-redux";
 
 export const NavBar = ({ setOpenSideNav, isLanding }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      // You can adjust the scroll threshold based on your design
-      const scrollThreshold = 50;
-
-      // Check if the scroll position is greater than the threshold
-      setIsScrolled(scrollPosition > scrollThreshold);
-    };
-
-    // Attach the event listener when the component mounts
-    window.addEventListener("scroll", handleScroll);
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []); // Empty dependency array ensures that the effect runs only once when the component mounts
-
   const isAdmin = useSelector((state) => state.auth.admin);
 
   const { specialOffer } = useSelector((state) => state.products);
@@ -36,65 +14,64 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
       style={{
         zIndex: 20,
       }}
-      className={`h-[5em] flex justify-between items-center gap-2 px-2 ${
-        isLanding
-          ? isScrolled
-            ? "py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md"
-            : "py-6 text-slate-100 "
-          : "py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md"
-      } fixed w-full transition`}
+      className={`h-[5em] flex justify-between items-center gap-2 px-2 py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md fixed w-full transition`}
     >
+
+      <div className="flex gap-1 ">
       {isAdmin ? (
-        <Link className="lg:hidden flex-1 text-black" to="/admin">
-          <Button text="Admin" icon="fa-solid fa-user-tie" />
+        <Link className="lg:hidden lg:flex-1 text-black" to="/admin">
+          <Button text={<i className="fa-solid fa-user-tie"></i>} />
         </Link>
       ) : (
-        <Link className="lg:hidden flex-1 text-black" to="/account">
-          <Button text="حسابي" icon="fa-solid fa-user" />
+        <Link className="lg:hidden lg:flex-1 text-black" to="/account">
+          <Button text={<i className="fa-solid fa-user"></i>} />
         </Link>
       )}
 
-      <div className="lg:flex-1 text-center lg:text-start">
+
+      </div>
+      <div className=" lg:flex-2  w-[80px] lg:w-[100px] ">
         {isLanding ? (
-          <LinkScroll to={"hero"} spy={true} smooth={true} offset={0}>
-            <h1
-              className={`text-lg sm:text-2xl font-bold uppercase  transition  cursor-pointer ${
-                isScrolled ? "text-slate-800" : "text-purple-700"
-              } `}
-            >
-              Top Shoe DZ
-            </h1>
+          <LinkScroll to={"hero"} spy={true} smooth={true} offset={-100}>
+            <img
+              src="/logo.png"
+              className="w-full cursor-pointer rounded-lg"
+              alt="store logo"
+            />
           </LinkScroll>
         ) : (
           <Link to="/">
-            <h1
-              className={`text-sm sm:text-2xl font-bold uppercase  transition  cursor-pointer ${
-                isScrolled ? "text-slate-800" : "text-purple-700"
-              } `}
-            >
-              Top Shoe DZ
-            </h1>
+            <img
+              src="/logo.png"
+              className="w-full cursor-pointer rounded-lg"
+              alt="store logo"
+            />
           </Link>
         )}
       </div>
-      <ul className="hidden lg:flex items-center flex-row-reverse justify-around flex-1">
+      <ul className="hidden lg:flex items-center gap-12  flex-row-reverse justify-center flex-1 w-full">
         {isLanding ? (
-          <LinkScroll to={"hero"} spy={true} smooth={true} offset={0}>
-            <li className="hover:text-purple-500 cursor-pointer font-bold transition">
+          <LinkScroll to={"hero"} spy={true} smooth={true} offset={-100}>
+            <li className="hover:text-purple-700 cursor-pointer font-bold transition">
               الصفحة الرئيسية
             </li>
           </LinkScroll>
         ) : (
           <Link to="/">
-            <li className="hover:text-purple-500 cursor-pointer font-bold transition">
+            <li className="hover:text-purple-700 cursor-pointer font-bold transition">
               الصفحة الرئيسية
             </li>
           </Link>
         )}
 
-        <Link to="/shop">
-          <li className="hover:text-purple-500 cursor-pointer font-bold transition">
-            المتجر
+        <Link to="/category/femmes">
+          <li className="hover:text-purple-700 cursor-pointer font-bold transition">
+            قسم النساء
+          </li>
+        </Link>
+        <Link to="/category/enfants">
+          <li className="hover:text-purple-700 cursor-pointer font-bold transition">
+            قسم الاطفال
           </li>
         </Link>
 
@@ -107,40 +84,45 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
               offset={-100}
               onClick={() => setOpenSideNav(false)}
             >
-              <li className="hover:text-purple-500 cursor-pointer font-bold transition">
+              <li className="hover:text-purple-700 cursor-pointer font-bold transition">
                 عرض خاص
               </li>
             </LinkScroll>
           ) : (
             <Link to="/">
-              <li className="hover:text-purple-500 cursor-pointer font-bold transition">
+              <li className="hover:text-purple-700 cursor-pointer font-bold transition">
                 عرض خاص
               </li>
             </Link>
           ))}
 
         <Link to="/contact">
-          <li className="hover:text-purple-500 cursor-pointer font-bold transition">
+          <li className="hover:text-purple-700 cursor-pointer font-bold transition">
             اتصل بنا
           </li>
         </Link>
       </ul>
 
-      <div className="flex items-center  flex-1">
-        {/* <i className="text-xl fa-solid fa-cart-shopping ml-auto"></i> */}
-        <div className="ml-auto flex gap-2 text-black">
+      <div className="flex items-center flex-2">
+        <div className="ml-auto  flex gap-2 text-black">
           {isAdmin ? (
             <Link className="hidden lg:flex" to="/admin">
-              <Button text="Admin" icon="fa-solid fa-user-tie" />
+              <Button text={<i className="fa-solid fa-user-tie"></i>} />{" "}
             </Link>
           ) : (
             <Link className="hidden lg:flex" to="/account">
-              <Button text="حسابي" icon="fa-solid fa-user" />
+              <Button text={<i className="fa-solid fa-user"></i>} />{" "}
             </Link>
           )}
 
-          <div onClick={() => setOpenSideNav(true)} className="flex lg:hidden">
-            <Button text="قائمة" icon="fa-solid fa-bars" />
+     
+
+
+          <div className="flex gap-1">
+            {/* <Button text={<i className="fa-solid fa-shopping-cart"></i>} /> */}
+            <div className=" lg:hidden" onClick={() => setOpenSideNav(true)}>
+              <Button text={<i className="fa-solid fa-bars"></i>} />
+            </div>
           </div>
         </div>
       </div>

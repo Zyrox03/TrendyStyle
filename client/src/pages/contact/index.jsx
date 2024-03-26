@@ -74,14 +74,14 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-slate-300/50 flex flex-col relative overflow-hidden">
       <Helmet>
-        <title>Top Shoe DZ - Contactez-nous</title>
+        <title>Trendy Style - Contactez-nous</title>
         <meta
           name="description"
-          content="Contactez-nous pour toute question ou préoccupation. Nous sommes là pour vous aider!"
-        />
+          content="Contactez-nous pour toute question ou préoccupation concernant nos collections de vêtements pour femmes et enfants. Nous sommes là pour vous aider à trouver le style parfait!"
+          />
 
         {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
-        <meta property="og:title" content="Top Shoe DZ - Contactez-nous" />
+        <meta property="og:title" content="Trendy Style - Contactez-nous" />
         <meta
           property="og:description"
           content="Contactez-nous pour toute question ou préoccupation. Nous sommes là pour vous aider!"
@@ -92,12 +92,12 @@ const Contact = () => {
         />
         <meta
           property="og:url"
-          content="https://topshoes-dz.pages.dev/contact"
+          content="https://trendy-style.pages.dev/contact"
         />
 
         {/* Balises Twitter Card pour le partage sur Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Top Shoe DZ - Contactez-nous" />
+        <meta name="twitter:title" content="Trendy Style - Contactez-nous" />
         <meta
           name="twitter:description"
           content="Contactez-nous pour toute question ou préoccupation. Nous sommes là pour vous aider!"

@@ -28,7 +28,7 @@ const SideNavDashboard = ({ setSidebar, activeLink, sidebar }) => {
             }}
             className="p-4"
           >
-            <h1 className="text-2xl font-semibold">Top Shoe DZ</h1>
+            <h1 className="text-2xl font-semibold">Trendy Style</h1>
           </div>
         </Link>
         <nav className="flex-1 flex flex-col gap-1 mt-6">

@@ -47,16 +47,16 @@ export const Feedback = () => {
 
       <div
         dir="rtl"
-        className="feedbackSwiper max-w-[85%] lg:max-w-[50%] flex flex-wrap items-center justify-around gap-12 "
+        className="feedbackSwiper max-w-[85%] lg:max-w-[30%] flex flex-wrap items-center justify-around gap-12 "
       >
         <div className="swiper-wrapper">
           {testimonials &&
             testimonials.map(({ name, feedback, text }, index) => (
               <div key={index} className="swiper-slide">
                 <div className="  bg-slate-100 rounded-lg flex flex-col gap-4 p-4 hover:bg-purple-400/50  transition duration-500">
-                  <i className="text-4xl text-purple-800 fa-solid fa-quote-left"></i>
+                  <i className="text-3xl text-purple-800 fa-solid fa-quote-left"></i>
                   <h3 className="text-lg text-purple-800 font-bold">{name} </h3>
-                  <h4 className="text-md text-purple-800 font-bold">
+                  <h4 className="text-sm text-purple-800 font-bold">
                     {feedback}{" "}
                   </h4>
                   <p className="text-md">{text} </p>

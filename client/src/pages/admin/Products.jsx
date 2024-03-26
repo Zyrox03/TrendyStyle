@@ -65,20 +65,20 @@ const Products = () => {
   return (
     <div className="container mx-auto">
       <Helmet>
-        <title>Top Shoe DZ - Gestion des Produits</title>
+        <title>Trendy Style - Gestion des Produits</title>
         <meta
           name="description"
-          content="Gérez efficacement les produits sur le portail administratif de Top Shoe DZ. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
+          content="Gérez efficacement les produits sur le portail administratif de Trendy Style. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
         />
 
         {/* Balises Open Graph pour le partage sur les réseaux sociaux */}
         <meta
           property="og:title"
-          content="Top Shoe DZ - Gestion des Produits"
+          content="Trendy Style - Gestion des Produits"
         />
         <meta
           property="og:description"
-          content="Gérez efficacement les produits sur le portail administratif de Top Shoe DZ. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
+          content="Gérez efficacement les produits sur le portail administratif de Trendy Style. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
         />
         <meta
           property="og:image"
@@ -86,18 +86,18 @@ const Products = () => {
         />
         <meta
           property="og:url"
-          content="https://topshoes-dz.pages.dev/admin/products"
+          content="https://trendy-style.pages.dev/admin/products"
         />
 
         {/* Balises Twitter Card pour le partage sur Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Top Shoe DZ - Gestion des Produits"
+          content="Trendy Style - Gestion des Produits"
         />
         <meta
           name="twitter:description"
-          content="Gérez efficacement les produits sur le portail administratif de Top Shoe DZ. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
+          content="Gérez efficacement les produits sur le portail administratif de Trendy Style. Ajoutez, modifiez ou supprimez des produits pour maintenir un inventaire à jour."
         />
         <meta
           name="twitter:image"

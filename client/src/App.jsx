@@ -11,6 +11,7 @@ import DashboardCards from "./pages/admin/DashboardCards";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "./toolkit/productSlice";
 import Auth from "./pages/auth";
+import Search from "./pages/search/Search";
 
 // eslint-disable-next-line react/prop-types
 const AdminRoute = ({ element }) => {
@@ -68,9 +69,11 @@ function App() {
 
       <Route path="/shop" element={<AllProducts />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/search" element={<Search />} />
       {/* <Route path="/cart" element={<Cart />} /> */}
       <Route path="/account" element={<Auth />} />
       <Route path="/:productID" element={<ProductDetails />} />
+      <Route path="/category/:category" element={<AllProducts />} />
     </Routes>
     </>
 

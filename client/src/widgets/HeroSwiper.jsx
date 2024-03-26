@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-
+import slide1 from '../assets/slide1.png'
+import slide2 from '../assets/slide2.png'
+import slide3 from '../assets/slide3.png'
 export const HeroSwiper = () => {
   useEffect(() => {
     // Initialize Swiper inside the useEffect function
@@ -38,26 +40,33 @@ export const HeroSwiper = () => {
   }, []); // The empty dependency array ensures this runs only once after component mount
 
   return (
-    <div className="swiper absolute inset-0 h-full w-full">
+    <div dir="ltr" className="swiper absolute inset-0 h-full w-full">
         
-      <div className="swiper-wrapper">
+      <div className="swiper-wrapper ">
         <div className="swiper-slide">
           <img
-            src="https://cms-cdn.thesolesupplier.co.uk/2020/12/image-via-43einhalb-1_w1160.jpg"
+            src={slide1}
             alt="hero image"
-            className=" object-cover inset-0 h-full w-full"
+            className=" object-contain w-full rounded-3xl inset-0 h-full w-full"
           />
         </div>
         <div className="swiper-slide">
           <img
-            src="https://images.augustman.com/wp-content/uploads/sites/3/2022/04/25181356/air-jordan-1-retro-high-og-_university-blue_1.jpeg"
-
+            src={slide2}
             alt="hero image"
-            className=" object-cover inset-0 h-full w-full"
+            className=" object-contain w-full rounded-3xl inset-0 h-full w-full"
           />
         </div>
+        <div className="swiper-slide">
+          <img
+            src={slide3}
+            alt="hero image"
+            className=" object-contain w-full rounded-3xl inset-0 h-full w-full"
+          />
+        </div>
+     
       </div>
-      <div className="swiper-pagination"></div>
+      {/* <div className="swiper-pagination"></div> */}
     </div>
   );
 };

@@ -191,7 +191,7 @@ const ProductDetails = () => {
         <meta property="og:image" content={product?.images[0]?.image?.path} />
         <meta
           property="og:url"
-          content={`https://topshoes-dz.pages.dev/${product?.slug}`}
+          content={`https://trendy-style.pages.dev/${product?.slug}`}
         />
 
         {/* Balises Twitter Card pour le partage sur Twitter */}
