@@ -5,7 +5,6 @@ import { Link as LinkScroll } from "react-scroll";
 import { useSelector } from "react-redux";
 
 export const NavBar = ({ setOpenSideNav, isLanding }) => {
-  const isAdmin = useSelector((state) => state.auth.admin);
 
   const { specialOffer } = useSelector((state) => state.products);
 
@@ -16,23 +15,15 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
       }}
       className={`h-[5em] flex justify-between items-center gap-2 px-2 py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md fixed w-full transition`}
     >
-
       <div className="flex gap-1 ">
-      {isAdmin ? (
-        <Link className="lg:hidden lg:flex-1 text-black" to="/admin">
-          <Button text={<i className="fa-solid fa-user-tie"></i>} />
-        </Link>
-      ) : (
-        <Link className="lg:hidden lg:flex-1 text-black" to="/account">
-          <Button text={<i className="fa-solid fa-user"></i>} />
-        </Link>
-      )}
-
+      <Link className="lg:hidden lg:flex-1 text-black" to="/cart">
+            <Button text={<i className="fa-solid fa-shopping-cart"></i>} />
+          </Link>
 
       </div>
       <div className=" lg:flex-2  w-[80px] lg:w-[100px] ">
         {isLanding ? (
-          <LinkScroll to={"hero"} spy={true} smooth={true} offset={-100}>
+          <LinkScroll to={"hero"} spy={true} smooth={true} offset={-180}>
             <img
               src="/logo.png"
               className="w-full cursor-pointer rounded-lg"
@@ -51,7 +42,7 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
       </div>
       <ul className="hidden lg:flex items-center gap-12  flex-row-reverse justify-center flex-1 w-full">
         {isLanding ? (
-          <LinkScroll to={"hero"} spy={true} smooth={true} offset={-100}>
+          <LinkScroll to={"hero"} spy={true} smooth={true} offset={-180}>
             <li className="hover:text-purple-700 cursor-pointer font-bold transition">
               الصفحة الرئيسية
             </li>
@@ -81,7 +72,7 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
               to={"feature"}
               spy={true}
               smooth={true}
-              offset={-100}
+              offset={-180}
               onClick={() => setOpenSideNav(false)}
             >
               <li className="hover:text-purple-700 cursor-pointer font-bold transition">
@@ -105,18 +96,9 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
 
       <div className="flex items-center flex-2">
         <div className="ml-auto  flex gap-2 text-black">
-          {isAdmin ? (
-            <Link className="hidden lg:flex" to="/admin">
-              <Button text={<i className="fa-solid fa-user-tie"></i>} />{" "}
-            </Link>
-          ) : (
-            <Link className="hidden lg:flex" to="/account">
-              <Button text={<i className="fa-solid fa-user"></i>} />{" "}
-            </Link>
-          )}
-
-     
-
+          <Link className="hidden lg:flex" to="/cart">
+            <Button text={<i className="fa-solid fa-shopping-cart"></i>} />{" "}
+          </Link>
 
           <div className="flex gap-1">
             {/* <Button text={<i className="fa-solid fa-shopping-cart"></i>} /> */}

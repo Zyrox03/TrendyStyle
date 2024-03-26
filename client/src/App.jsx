@@ -2,16 +2,22 @@ import AllProducts from "./pages/allProducts";
 import LandingPage from "./pages/landingPage";
 import Contact from "./pages/contact";
 import { Navigate, Route, Routes } from "react-router-dom";
-import ProductDetails from "./pages/productDetails";
+
 import Dashboard from "./layouts/Dashboard";
 import routes from "./routes";
-import { Suspense, useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import Loader from "./common/loader";
 import DashboardCards from "./pages/admin/DashboardCards";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "./toolkit/productSlice";
 import Auth from "./pages/auth";
 import Search from "./pages/search/Search";
+import LoadingProductDetails from "./common/loader/LoadingProductDetails";
+import Cart from "./pages/cart";
+
+const ProductDetails = lazy(() => import("./pages/productDetails"));
+
+
 
 // eslint-disable-next-line react/prop-types
 const AdminRoute = ({ element }) => {
@@ -72,8 +78,14 @@ function App() {
       <Route path="/search" element={<Search />} />
       {/* <Route path="/cart" element={<Cart />} /> */}
       <Route path="/account" element={<Auth />} />
-      <Route path="/:productID" element={<ProductDetails />} />
-      <Route path="/category/:category" element={<AllProducts />} />
+    
+      <Route path="/:productID" element={
+        <Suspense fallback={<LoadingProductDetails />}>
+          <ProductDetails />
+        </Suspense>
+    
+    } />
+          <Route path="/category/:category" element={<AllProducts />} />
     </Routes>
     </>
 

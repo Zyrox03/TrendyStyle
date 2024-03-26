@@ -50,6 +50,20 @@ export const Footer = () => {
                 </li>
                 <li>
                   <Link
+                    to="/category/femmes"
+                    className="transition-colors duration-300 text-gray-300 hover:text-slate-100"
+                  >
+قسم النساء                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/category/enfants"
+                    className="transition-colors duration-300 text-gray-300 hover:text-slate-100"
+                  >
+قسم الاطفال                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/shop"
                     className="transition-colors duration-300 text-gray-300 hover:text-slate-100"
                   >

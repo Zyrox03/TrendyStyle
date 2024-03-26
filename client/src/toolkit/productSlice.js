@@ -6,10 +6,9 @@ const fetchProducts = createAsyncThunk("products/fetchProducts", async () => {
   // eslint-disable-next-line no-useless-catch
   try {
     // Make an HTTP request to your server API to get the products
-    const response = await axios.get(`${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products`); // Update the URL based on your server route
+    const response = await axios.get(`${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/products`);
 
     const { products, specialOffer , stars} = response.data;
-
     return { products, specialOffer, stars };
   } catch (error) {
     console.log(error);

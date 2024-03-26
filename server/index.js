@@ -190,6 +190,21 @@ app.post("/contact", async (req, res) => {
 });
 
 
+app.get('/stars', async(req,res)=>{
+
+  try{
+
+    const store = await Store.findOne()
+
+
+    res.status(200).json({  stars :store.stars });
+
+  }catch(error){
+    res.status(500).json({ error: "Erreur interne du serveur" });
+
+  }
+})
+
 app.put('/stars', async (req, res) => {
   try {
     const { storeAdmin, stars } = req.body;
@@ -201,6 +216,7 @@ app.put('/stars', async (req, res) => {
       updatedStore = await Store.create({ storeAdmin, stars });
     }
 
+    updatedStore.save()
     res.status(200).json({ message: "Star count updated successfully", updatedStarCount: updatedStore.stars });
   } catch (error) {
     console.log(error);

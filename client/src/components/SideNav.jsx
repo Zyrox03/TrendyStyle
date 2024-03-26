@@ -85,6 +85,12 @@ to="/category/enfants">
             اتصل بنا
           </li>
         </Link>
+
+        <Link to="/account">
+          <li className="text-3xl hover:text-purple-500 cursor-pointer font-bold transition">
+          حسابي
+                    </li>
+        </Link>
       </ul>
     </div>
   );

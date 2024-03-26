@@ -1,12 +1,11 @@
 import { NavBar } from "../../components/NavBar";
-import { SideNav } from "../../components/sideNav";
+import { SideNav } from "../../components/SideNav";
 import { Footer } from "../../components/Footer";
 import { useEffect, useState } from "react";
 import { Title } from "../../widgets/Title";
 import { useSelector } from "react-redux";
 import { Link as LinkScroll } from "react-scroll";
-import { CheckoutForm } from "../../widgets/CheckoutForm";
-const Cart = () => {
+ const Cart = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.items);
@@ -100,7 +99,7 @@ const Cart = () => {
                         </div>
                       </div>
                       <span className="ml-auto font-bold">
-                        ${product.price}
+                        ${product?.price}
                       </span>
                     </div>
                   </div>
@@ -116,7 +115,9 @@ const Cart = () => {
                 </div>
               </div>
               <div className="flex-1 flex justify-center" id="checkout">
-                <CheckoutForm cartPage />
+
+
+
               </div>
             </div>
           </div>

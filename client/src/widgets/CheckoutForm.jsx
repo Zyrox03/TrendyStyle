@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../toolkit/productSlice";
+import { addItem, removeItem } from "../toolkit/cartSlice";
+
 export const CheckoutForm = ({
   selectedOptions,
   handleFormikErrorsChange,
@@ -20,6 +22,7 @@ export const CheckoutForm = ({
 }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.products);
+  const cartItems = useSelector((state) => state.cart.items); // Assuming your cart items are stored in your Redux state
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -200,6 +203,23 @@ export const CheckoutForm = ({
       (option) => option.value === formik.values.deliveryOption
     )?.deliveryPrice || 0;
   const totalPrice = quantity * productInfo.price + deliveryPrice; // Calculate total price including delivery
+
+  const [isItemInCart, setIsItemInCart] = useState(false);
+  // cart functions
+  const productSlug = formik.values?.productInfo?.slug;
+
+  useEffect(() => {
+    setIsItemInCart(cartItems.some((item) => item === productSlug));
+  }, [cartItems, productSlug]);
+
+  const updateCart = () => {
+    if (isItemInCart) {
+      dispatch(removeItem(productSlug));
+    } else {
+      dispatch(addItem(productSlug));
+    }
+  };
+
   return (
     <form
       dir="rtl"
@@ -351,16 +371,34 @@ export const CheckoutForm = ({
         <span className="font-bold">السعر الإجمالي</span>
         <span className="font-semibold">{totalPrice} DA</span>
       </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className={`animate-bounce w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
-          loading ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
-        <i className="text-lg fas fa-clipboard-check"></i>
-        <p className="text-lg font-bold">تأكيد الطلب</p>
-      </button>{" "}
+
+      <div className="flex flex-col gap-3">
+        <button
+          type="submit"
+          disabled={loading}
+          className={`animate-bounce w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          <i className="text-lg fas fa-clipboard-check"></i>
+          <p className="text-lg font-bold">تأكيد الطلب</p>
+        </button>{" "}
+        <button
+          type="button"
+          disabled={loading}
+          onClick={updateCart}
+          className={`w-full flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          <i className="text-lg fas fa-shopping-cart"></i>
+          {isItemInCart ? (
+            <p className="text-lg font-bold"> احذف من السلة</p>
+          ) : (
+            <p className="text-lg font-bold"> اضف الى السلة</p>
+          )}
+        </button>{" "}
+      </div>
       {formik.touched && (
         <div>
           {

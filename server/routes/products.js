@@ -9,21 +9,17 @@ const cloudinary = require("cloudinary").v2;
 const multer = require("multer");
 const { storage } = require("../cloudinary");
 const SpecialOffer = require("../model/SpecialOffer");
-const Store = require("../model/Store");
 const upload = multer({ storage });
 
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find();
     const specialOffer = await SpecialOffer.find();
-    const {stars} = await Store.findOne();
-
     res
       .status(200)
       .json({
         products,
         specialOffer: specialOffer.length > 0 ? specialOffer[0] : null,
-        stars: stars || null,
       });
   } catch (error) {
     console.error(error);

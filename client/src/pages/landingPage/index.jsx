@@ -11,7 +11,7 @@ import { SideNav } from "../../components/SideNav";
 
 import { Helmet } from "react-helmet";
 import MetaPixel from "../../utils/meta/metaPixel";
-import { Star } from "../../widgets/Star";
+import { SearchBar } from "../../widgets/SearchBar";
 
 const LandingPage = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
@@ -99,26 +99,12 @@ const LandingPage = () => {
       />
 
       <div style={{ marginTop: "100px" }} className="px-1">
-      <div className="flex justify-center items-center mb-6">
-      <form action="/search" method="GET" className="relative w-fit text-center">
-  <input
-    type="text"
-    name="search" 
-    placeholder="Search..."
-    className="bg-purple-700 text-white placeholder:text-white rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white focus:text-purple-700 transition-colors duration-300 ease-in-out"
-  />
-  <button type="submit" className="absolute left-2 top-1/2 -translate-y-1/2">
-    <i className="fa fa-search text-white"></i>
-  </button>
-</form>
-
-      </div>
+     <SearchBar/>
         <Hero />
         {/* <BestProducts productsList={products} /> */}
         <ProductsSection productsList={products} />
         <Feature />
         <Feedback />
-        <Star />
       </div>
 
       <Footer />

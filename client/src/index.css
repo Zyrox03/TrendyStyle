@@ -17,7 +17,10 @@ body{
   .bookmarkBtn {
     --color: #560bad;
     font-family: inherit;
-    display: inline-block;
+
+display: flex;
+justify-content: center;
+align-items: center ;
     height: 2.6em;
     line-height: 2.5em;
     position: relative;

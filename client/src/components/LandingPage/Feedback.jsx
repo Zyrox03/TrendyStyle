@@ -3,6 +3,7 @@ import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import { Title } from "../../widgets/Title";
 import testimonials from "../../assets/testimonials.json";
+import {Star} from '../../widgets/Star'
 export const Feedback = () => {
   useEffect(() => {
     // Initialize Swiper inside the useEffect function
@@ -65,6 +66,10 @@ export const Feedback = () => {
             ))}
         </div>
       </div>
+
+
+      <Star />
+
     </div>
   );
 };

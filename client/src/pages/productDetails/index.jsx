@@ -220,8 +220,8 @@ const ProductDetails = () => {
       <NavBar setOpenSideNav={setOpenSideNav} />
       <SideNav setOpenSideNav={setOpenSideNav} openSideNav={openSideNav} />
       <div style={{ marginTop: "5em" }}>
-        <div className="p-4 lg:p-8 flex flex-col gap-6">
-          <h1 dir="rtl" className="text-3xl lg:text-5xl font-bold">
+        <div className="p-4 lg:p-8 flex flex-col gap-2">
+          <h1 dir="rtl" className="text-3xl lg:text-5xl font-bold text-center lg:text-start">
             {product?.name}{" "}
           </h1>
           <hr />

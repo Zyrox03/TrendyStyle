@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { Helmet } from "react-helmet";
 import MetaPixel from "../../utils/meta/metaPixel";
 import { useLocation } from "react-router-dom";
+import { SearchBar } from "../../widgets/SearchBar";
 const Search = () => {
   const [openSideNav, setOpenSideNav] = useState(false);
   const productsList = useSelector((state) => state.products.items);
@@ -89,21 +90,8 @@ console.log('filteredProductList',filteredProductList)
       <div style={{ marginTop: "8em" }}>
 
 
-      <div className="flex justify-center items-center mb-4">
-      <form action="/search" method="GET" className="relative w-fit text-center">
-  <input
-    type="text"
-    defaultValue={search}
-    name="search" 
-    placeholder="Search..."
-    className="bg-purple-700 text-white placeholder:text-white rounded-full py-2 px-4 pl-10 focus:outline-none focus:bg-white focus:text-purple-700 transition-colors duration-300 ease-in-out"
-  />
-  <button type="submit" className="absolute left-2 top-1/2 -translate-y-1/2">
-    <i className="fa fa-search text-white"></i>
-  </button>
-</form>
+      <SearchBar  />
 
-      </div>
 
         <div className="flex flex-col items-center gap-12 p-4 lg:p-8">
           <Title

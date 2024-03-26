@@ -13,8 +13,8 @@ export const BestProducts = ({ productsList }) => {
         sub_title="انضموا إلى الأناقة مع اختيارنا الدقيق من أحدث وأكثر الأنماط مبيعًا بعناية"
       />
       {productsList.length > 0 ? (
-        <div className="flex justify-around items-center gap-12 flex-wrap">
-          {productsList.slice(0, 3).map((product, index) => (
+        <div className="flex justify-around items-start gap-y-6 w-full flex-wrap">
+        {productsList.slice(0, 3).map((product, index) => (
             <ProductCard key={index} product={product} />
           ))}
         </div>
