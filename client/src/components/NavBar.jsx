@@ -5,21 +5,31 @@ import { Link as LinkScroll } from "react-scroll";
 import { useSelector } from "react-redux";
 
 export const NavBar = ({ setOpenSideNav, isLanding }) => {
-
   const { specialOffer } = useSelector((state) => state.products);
+  const cartItems = useSelector((state) => state.cart.items);
 
   return (
     <nav
       style={{
         zIndex: 20,
       }}
-      className={`h-[5em] flex justify-between items-center gap-2 px-2 py-3 bg-slate-300 bg-opacity-50 backdrop-blur-md shadow-md fixed w-full transition`}
+      className={`h-[5em] flex justify-between items-center gap-2 px-2 py-3 bg-white  shadow-md fixed w-full transition`}
     >
       <div className="flex gap-1 ">
-      <Link className="lg:hidden lg:flex-1 text-black" to="/cart">
-            <Button text={<i className="fa-solid fa-shopping-cart"></i>} />
-          </Link>
+        <Link className="lg:hidden lg:flex-1 text-black relative" to="/cart">
+          {cartItems && cartItems.length > 0 && (
+            <div
+              className="bg-red-500 opacity-100  absolute bottom-[70%] left-[70%] rounded-full flex jusitfy-center items-center "
+              style={{ zIndex: 2 }}
+            >
+              <span className="text-white w-5 h-5 rounded-full text-center">
+                {cartItems.length}{" "}
+              </span>
+            </div>
+          )}
 
+          <Button text={<i className="fa-solid fa-shopping-cart"></i>} />
+        </Link>
       </div>
       <div className=" lg:flex-2  w-[80px] lg:w-[100px] ">
         {isLanding ? (
@@ -96,12 +106,21 @@ export const NavBar = ({ setOpenSideNav, isLanding }) => {
 
       <div className="flex items-center flex-2">
         <div className="ml-auto  flex gap-2 text-black">
-          <Link className="hidden lg:flex" to="/cart">
+          <Link className="hidden lg:flex  relative" to="/cart">
+            {cartItems && cartItems.length > 0 && (
+              <div
+                className="bg-red-500 opacity-100  absolute bottom-[70%] left-[70%] rounded-full flex jusitfy-center items-center "
+                style={{ zIndex: 2 }}
+              >
+                <span className="text-white w-5 h-5 rounded-full text-center">
+                  {cartItems.length}{" "}
+                </span>
+              </div>
+            )}
             <Button text={<i className="fa-solid fa-shopping-cart"></i>} />{" "}
           </Link>
 
           <div className="flex gap-1">
-            {/* <Button text={<i className="fa-solid fa-shopping-cart"></i>} /> */}
             <div className=" lg:hidden" onClick={() => setOpenSideNav(true)}>
               <Button text={<i className="fa-solid fa-bars"></i>} />
             </div>

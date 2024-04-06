@@ -21,7 +21,6 @@ const mongo_url = process.env.MONGODB_URL;
 mongoose.set("strictQuery", false);
 main().catch((err) => console.log(err));
 
-// "mongodb://127.0.0.1:27017/TopShoeDz"
 async function main() {
   await mongoose.connect(mongo_url);
   console.log("Connected to Database");
@@ -175,7 +174,10 @@ app.post("/contact", async (req, res) => {
           <p>Nom: ${name}</p>
           <p>Email: ${email}</p>
           <p class="preserve-space" >Message: <br/> ${message}</p>
-          
+          <br/>
+          <br/>
+          <h2>Envoyé au store Trendy Style</h2>
+
         </div>
       </body>
     </html>

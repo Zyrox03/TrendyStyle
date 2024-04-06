@@ -85,7 +85,7 @@ const LandingPage = () => {
         href={`https://wa.me/${import.meta.env.VITE_ADMIN_PHONE}`}
       >
         <div
-          style={{ zIndex: 2 }}
+          style={{ zIndex: 11 }}
           className="whatsapp_widget bg-[#25D366] cursor-pointer rounded-full w-[50px] h-[50px] flex items-center justify-center fixed bottom-[25px] lg:bottom-[50px] right-[25px] lg:right-[50px] "
         >
           <i className="text-xl text-white fa-brands fa-whatsapp"></i>

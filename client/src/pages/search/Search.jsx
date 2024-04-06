@@ -91,7 +91,7 @@ console.log('filteredProductList',filteredProductList)
 
 
       <SearchBar  />
-
+ 
 
         <div className="flex flex-col items-center gap-12 p-4 lg:p-8">
           <Title
@@ -99,8 +99,8 @@ console.log('filteredProductList',filteredProductList)
           />
 
           {filteredProductList.length > 0 ? (
-            <div className="flex justify-around items-center gap-y-6 w-full flex-wrap">
-              {filteredProductList.map((product, index) => (
+        <div className="flex justify-around items-start gap-y-6 w-full flex-wrap">
+        {filteredProductList.map((product, index) => (
                 <ProductCard key={index} product={product} />
               ))}
             </div>

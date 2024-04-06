@@ -4,8 +4,7 @@ const slugify = require("slugify");
 const Product = require("../model/Product");
 
 // cloudinary
-
-const cloudinary = require("cloudinary").v2;
+const {cloudinary} = require('../cloudinary')
 const multer = require("multer");
 const { storage } = require("../cloudinary");
 const SpecialOffer = require("../model/SpecialOffer");
@@ -81,7 +80,6 @@ router.post("/", upload.array("imageFiles"), async (req, res) => {
     const { name, slug, category, price, oldPrice, images, description, stock, size } =
       req.body;
     const newSlug = slug || slugify(name, { lower: true });
-    console.log(req.body?.category)
     // Attempt to parse the images property
     const parsedImages = JSON.parse(images);
     // Map over images and req.files to create the updatedImages array
@@ -149,9 +147,20 @@ router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
 
     // Fetch the existing product from the database using the productSlug
     const existingProduct = await Product.findOne({ slug: productSlug });
+// Extract filenames from updated images
+const currentFileNames = existingProduct.images.map(image => image.image.filename);
+   
 
-    // Check if the existing product has images
-    const existingImages = existingProduct ? existingProduct.images : [];
+// Find missing filenames
+const availableFileNames = (filename)=> {
+  return parsedImages.find(imageObject => imageObject?.image.filename === filename)?.image.filename
+}
+const missingFilenames = currentFileNames.filter(filename => !availableFileNames(filename) )
+
+for(missingFileName of missingFilenames) {
+  await cloudinary.uploader.destroy(missingFileName);
+
+}
 
     // Replace existingImages with modified parsedImages
     const updatedParsedImages = parsedImages
@@ -163,6 +172,7 @@ router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
         },
         productColor: parsedImage.productColor,
       }));
+
 
     // Create a new array for newly uploaded images
     const newUploadedImages = req.files.map((file) => {
@@ -181,6 +191,8 @@ router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
         productColor: correspondingColor ? correspondingColor.productColor : "",
       };
     });
+
+
 
     const mergedImages = updatedParsedImages.concat(newUploadedImages);
 
@@ -212,7 +224,6 @@ router.put("/:slug", upload.array("imageFiles"), async (req, res) => {
       .status(200)
       .json({ message: "Product Updated Successfully", updatedProducts });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -227,6 +238,13 @@ router.delete("/:slug", async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
+    const imagesToDeleteArray = deletedProduct?.images
+
+    for(imageToDelete of imagesToDeleteArray) {
+      await cloudinary.uploader.destroy(imageToDelete?.image.filename);
+    }
+    
+    
     // Find and delete the associated SpecialOffer document
     const deletedSpecialOffer = await SpecialOffer.findOneAndDelete({
       slug: deletedProduct.slug,

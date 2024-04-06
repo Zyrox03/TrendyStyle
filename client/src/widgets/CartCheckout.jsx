@@ -10,21 +10,15 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "../toolkit/productSlice";
-import { addItem, removeItem } from "../toolkit/cartSlice";
+import { emptyCart } from "../toolkit/cartSlice";
 
-export const CheckoutForm = ({
-  selectedOptions,
-  handleFormikErrorsChange,
-  cartPage,
-  setOrderSuccess,
-  product,
-  uniqueColors,
-}) => {
+export const CartCheckout = ({ setOrderSuccess }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.products);
-  const cartItems = useSelector((state) => state.cart.items); // Assuming your cart items are stored in your Redux state
+  const cartItems = useSelector((state) => state.cart.items);
 
-  const [formikCartError, setFormikCartError] = useState("");
+  const [selectedWilayaCode, setSelectedWilayaCode] = useState("");
+  const [deliveryOptions, setDeliveryOptions] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +27,8 @@ export const CheckoutForm = ({
       wilaya: "",
       notes: "",
       deliveryOption: "",
-      ...selectedOptions,
+
+      cartItems,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("الاسم الكامل مطلوب"),
@@ -46,26 +41,12 @@ export const CheckoutForm = ({
       wilaya: Yup.string().required("الولاية مطلوبة"),
       baladiya: Yup.string().required("البلدية مطلوبة"),
       notes: Yup.string(),
-
-      size:
-        product?.size?.length > 0
-          ? Yup.string().required("اختر المقاس")
-          : Yup.string().nullable(),
-      color:
-        uniqueColors && uniqueColors.length > 0
-          ? Yup.string().required("اختر اللون")
-          : Yup.string().nullable(),
-      quantity: selectedOptions
-        ? Yup.number().required("الكمية مطلوبة").positive()
-        : Yup.number().positive(),
-
       deliveryOption: Yup.string().required("يرجى اختيار خيار التوصيل"),
     }),
 
     onSubmit: async (values) => {
       try {
         dispatch(setLoading(true));
-
         const selectedDeliveryOption = deliveryOptions.find(
           (option) => option.value === values.deliveryOption
         );
@@ -75,39 +56,40 @@ export const CheckoutForm = ({
           livraisonType: selectedDeliveryOption.value,
           livraisonPrice: selectedDeliveryOption.deliveryPrice,
         };
-
-        const response = await axios.post(
-          `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders`,
-          { ...values, deliveryOption }
+        // const response =
+        await axios.post(
+          `${import.meta.env.VITE_TOP_SHOE_DZ_BASE_API}/orders/cart`,
+          { ...values, deliveryOption, orderTotal: totalPrice }
         );
 
-        const { savedOrder } = response.data;
+        dispatch(emptyCart())
 
-        fbq("track", "Purchase", {
-          currency: "DZD",
-          value: savedOrder.orderTotal,
-          content_name: savedOrder.productInfo.name,
-          contents: [
-            {
-              id: savedOrder.productInfo.slug,
-              quantity: savedOrder.quantity,
-              price: savedOrder.productInfo.price,
-              variantes: {
-                couleur: savedOrder.color || "null",
-                pointure: savedOrder.size || "null",
-              },
-              livraison: savedOrder?.deliveryOption,
-              info_du_client: {
-                nom: savedOrder.name,
-                téléphone: savedOrder.phone,
-                adresse: {
-                  wilaya: savedOrder?.wilaya,
-                  baladiya: savedOrder?.baladiya,
-                },
-              },
-            },
-          ],
-        });
+        // const { savedOrder } = response.data;
+        // fbq("track", "Purchase", {
+        //   currency: "DZD",
+        //   value: savedOrder.orderTotal,
+        //   content_name: savedOrder.productInfo.name,
+        //   contents: [
+        //     {
+        //       id: savedOrder.productInfo.slug,
+        //       quantity: savedOrder.quantity,
+        //       price: savedOrder.productInfo.price,
+        //       variantes: {
+        //         couleur: savedOrder.color || "null",
+        //         pointure: savedOrder.size || "null",
+        //       },
+        //       livraison: savedOrder?.deliveryOption,
+        //       info_du_client: {
+        //         nom: savedOrder.name,
+        //         téléphone: savedOrder.phone,
+        //         adresse: {
+        //           wilaya: savedOrder?.wilaya,
+        //           baladiya: savedOrder?.baladiya,
+        //         },
+        //       },
+        //     },
+        //   ],
+        // });
 
         setOrderSuccess(true);
       } catch (error) {
@@ -126,21 +108,25 @@ export const CheckoutForm = ({
     },
   });
 
+  const deliveryPrice =
+    deliveryOptions.find(
+      (option) => option.value === formik.values.deliveryOption
+    )?.deliveryPrice || 0;
+
+  let totalPrice = deliveryPrice;
+
+  formik.values.cartItems.forEach((item) => {
+    totalPrice += item.price * item.quantity;
+  });
+
+
   useEffect(() => {
-    if (!cartPage) {
-      handleFormikErrorsChange(formik.errors);
-    }
     formik.setValues({
       ...formik.values,
-      ...selectedOptions,
-    });
-    formikCart.setValues({
-      ...formik.values,
-      ...selectedOptions,
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formik.errors, selectedOptions]);
+  }, [formik.errors]);
 
   const wilayaDZ = [
     ...new Set(citiesDZ.communes.map((item) => item.wilaya)),
@@ -170,9 +156,6 @@ export const CheckoutForm = ({
     }
   };
 
-  const [selectedWilayaCode, setSelectedWilayaCode] = useState("");
-  const [deliveryOptions, setDeliveryOptions] = useState([]);
-
   useEffect(() => {
     const livraisonTarifs = getLivraisonTarifs(selectedWilayaCode);
     if (livraisonTarifs) {
@@ -182,14 +165,14 @@ export const CheckoutForm = ({
         options.push({
           value: "bureau",
           label: "تسليم في المكتب",
-          deliveryPrice: parseInt(livraisonTarifs.bureau) - 200,
+          deliveryPrice: parseInt(livraisonTarifs.bureau),
         });
       }
 
       options.push({
         value: "domicile",
         label: "تسليم في المنزل",
-        deliveryPrice: parseInt(livraisonTarifs.domicile) - 200,
+        deliveryPrice: parseInt(livraisonTarifs.domicile),
       });
 
       setDeliveryOptions(options);
@@ -204,105 +187,8 @@ export const CheckoutForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.wilaya]);
 
-  const { quantity, productInfo } = formik.values;
-  const deliveryPrice =
-    deliveryOptions.find(
-      (option) => option.value === formik.values.deliveryOption
-    )?.deliveryPrice || 0;
-  const totalPrice = quantity * productInfo.price + deliveryPrice; // Calculate total price including delivery
-
-  const [isItemInCart, setIsItemInCart] = useState(false);
-  // cart functions
-  const productSlug = formik.values?.productInfo?.slug;
-
-  useEffect(() => {
-    setIsItemInCart(cartItems.some((item) => item.productSlug === productSlug));
-  }, [cartItems, productSlug]);
-
-  const formikCart = useFormik({
-    initialValues: {
-      ...selectedOptions,
-    },
-    validationSchema:
-      !isItemInCart &&
-      Yup.object({
-        size:
-          product?.size?.length > 0
-            ? Yup.string().required("اختر المقاس")
-            : Yup.string().nullable(),
-        color:
-          uniqueColors && uniqueColors.length > 0
-            ? Yup.string().required("اختر اللون")
-            : Yup.string().nullable(),
-        quantity: selectedOptions
-          ? Yup.number().required("الكمية مطلوبة").positive()
-          : Yup.number().positive(),
-      }),
-
-    onSubmit: async (values) => {
-      try {
-        dispatch(setLoading(true));
-        console.log("values values", values);
-
-        if (isItemInCart) {
-          dispatch(removeItem(productSlug));
-        } else {
-          const { color, quantity, size } = values;
-
-          const cartItem = {
-            name:  values.productInfo.name,
-            productSlug: values.productInfo.slug,
-            price: values.productInfo.price,
-            color,
-            quantity,
-            size,
-          };
-          dispatch(addItem(cartItem));
-        }
-      } catch (error) {
-        console.error("Error submitting order:", error);
-        // Scroll to the element with id 'variants' when there's an error
-        const variantsElement = document.getElementById("variants");
-        if (variantsElement) {
-          window.scrollTo({
-            top: variantsElement.offsetTop,
-            behavior: "smooth",
-          });
-        }
-      } finally {
-        dispatch(setLoading(false));
-      }
-    },
-  });
-
-  useEffect(() => {
-    setFormikCartError(Object.values(formikCart.errors)[0]);
-  }, [formikCart.errors]);
   return (
     <>
-      <form onSubmit={formikCart.handleSubmit}>
-        <div className="relative mb-4 flex flex-col gap-2">
-        <button
-          type="submit"
-          disabled={loading}
-          // onClick={updateCart}
-          className={`w-full max-w-md  flex items-center justify-center gap-4 bg-purple-800 text-white rounded-lg p-2 hover:bg-purple-900 transition active:scale-95 ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          <i className="text-lg fas fa-shopping-cart"></i> 
-          {isItemInCart ? (
-            <p className="text-lg font-bold"> احذف من السلة</p>
-          ) : (
-            <p className="text-lg font-bold"> اضف الى السلة</p>
-          )}
-          
-        </button>{" "}
-<div className="text-red-500  font-bold text-md">{formikCartError}</div>
-
-        </div>
-      </form>
-
       <form
         dir="rtl"
         onSubmit={formik.handleSubmit}
@@ -491,7 +377,7 @@ export const CheckoutForm = ({
   );
 };
 
-CheckoutForm.propTypes = {
+CartCheckout.propTypes = {
   product: PropTypes.object,
   uniqueColors: PropTypes.any,
   selectedOptions: PropTypes.object,

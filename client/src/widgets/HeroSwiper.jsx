@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-import slide1 from '../assets/slide1.png'
-import slide2 from '../assets/slide2.png'
-import slide3 from '../assets/slide3.png'
+import slide1 from '../assets/slide1.webp'
+import slide2 from '../assets/slide2.webp'
+import slide3 from '../assets/slide3.webp'
 export const HeroSwiper = () => {
   useEffect(() => {
     // Initialize Swiper inside the useEffect function

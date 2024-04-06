@@ -13,7 +13,9 @@ body{
   }
 
   
-
+  .table-container {
+    overflow-x: auto;
+  }
   .bookmarkBtn {
     --color: #560bad;
     font-family: inherit;

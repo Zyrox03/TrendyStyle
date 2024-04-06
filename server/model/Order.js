@@ -1,6 +1,16 @@
 const mongoose = require("mongoose");
 
 // Define the schema for your model
+
+const cartItemSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  color: String,
+  quantity: Number,
+  size: String
+});
+
+
 const orderSchema = new mongoose.Schema(
   {
     name: {
@@ -47,7 +57,10 @@ const orderSchema = new mongoose.Schema(
       price: Number,
       slug : String
     },
-
+    cartItems: {
+      type: [cartItemSchema],
+      default: null
+  },
     orderTotal: {
       type: Number, 
       required: true,

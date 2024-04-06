@@ -147,47 +147,64 @@ const Orders = () => {
             </tr>
           </thead>
           <tbody>
-          {!loadingOrders ? (
-    allOrders.length > 0 ? (
-        allOrders.map((order, index) => {
-            const product = products.find(product => product.slug === order?.productInfo?.slug);
-            const productImage = product?.images[0]?.image?.path || "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$";
+            {!loadingOrders ? (
+              allOrders.length > 0 ? (
+                allOrders.map((order, index) => {
+                  const product = products.find(
+                    (product) => product.slug === order?.productInfo?.slug
+                  );
 
-            return (
-                <tr key={index}>
-                    <td className="py-2 px-4 text-xs md:text-lg border-b lg:flex lg:items-center lg:gap-3">
-                        <img src={productImage} className="w-10 h-10 object-cover" alt="" />
-                        {order.productInfo.name}
-                    </td>
-                    <td className="py-2 px-4 text-xs md:text-lg border-b">
+                  console.log('product',product)
+                  const productImage = product ? (
+
+                    product?.images[0]?.image?.path ||
+                    "https://content.optimumnutrition.com/i/on/C100969_Image_01?layer0=$PDP$"
+                    ) : (
+                      "https://static.vecteezy.com/system/resources/thumbnails/001/504/962/small_2x/shopping-cart-icon-free-vector.jpg"
+
+                    )
+
+                  return (
+                    <tr key={index}>
+                      <td className="py-2 px-4 text-xs md:text-lg border-b lg:flex lg:items-center lg:gap-3">
+                        <img
+                          src={productImage}
+                          className="w-10 h-10 object-cover"
+                          alt=""
+                        />
+                        {order.productInfo?.name || 'Panier'}
+                      </td>
+                      <td className="py-2 px-4 text-xs md:text-lg border-b">
                         {order?.orderTotal} DA
-                    </td>
-                    <td className="py-2 px-4 text-xs md:text-lg border-b">
+                      </td>
+                      <td className="py-2 px-4 text-xs md:text-lg border-b">
                         {formatTimestamp(order.createdAt)}
-                    </td>
-                    <td className="py-2 px-4 text-xs md:text-lg border-b">
-                        <button onClick={() => openOrder(order)} className="bg-purple-700 text-white px-2 py-1 rounded ml-2">
-                            <i className="fas fa-eye"></i>
+                      </td>
+                      <td className="py-2 px-4 text-xs md:text-lg border-b">
+                        <button
+                          onClick={() => openOrder(order)}
+                          className="bg-purple-700 text-white px-2 py-1 rounded ml-2"
+                        >
+                          <i className="fas fa-eye"></i>
                         </button>
-                    </td>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td className="py-2 px-4 border-b" colSpan="3">
+                    Aucune commande pour le moment.
+                  </td>
                 </tr>
-            );
-        })
-    ) : (
-        <tr>
-            <td className="py-2 px-4 border-b" colSpan="3">
-                Aucune commande pour le moment.
-            </td>
-        </tr>
-    )
-) : (
-    <tr>
-        <td className="py-2 px-4 border-b" colSpan="3">
-            Chargement...
-        </td>
-    </tr>
-)}
-
+              )
+            ) : (
+              <tr>
+                <td className="py-2 px-4 border-b" colSpan="3">
+                  Chargement...
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -198,7 +215,7 @@ const Orders = () => {
           onClose={onCloseView}
           modalTitle={`Détails de la commande `}
         >
-              <p className="text-sm text-gray-500 mb-2">ID: {orderToView?._id} </p>
+          <p className="text-sm text-gray-500 mb-2">ID: {orderToView?._id} </p>
           <div className=" mx-auto grid grid-cols-2 gap-6 ">
             <div>
               <p className="text-sm text-gray-600">Nom du client:</p>
@@ -208,20 +225,48 @@ const Orders = () => {
               <p className="text-sm text-gray-600">Téléphone:</p>
               <p className="text-lg font-semibold">{orderToView?.phone}</p>
             </div>
-            <div>
-              <p className="text-sm text-gray-600">Nom du Produit:</p>
-              <p className="text-lg font-semibold">
-                {orderToView?.productInfo.name}
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">
-                Prix du Produit à l&apos;achat:
-              </p>
-              <p className="text-lg font-semibold">
-                {orderToView?.productInfo.price}
-              </p>
-            </div>
+
+            {orderToView?.cartItems && orderToView.cartItems.length > 0 && (
+              <div>
+                <p className="text-sm text-gray-600">
+                  Produits dans le panier:
+                </p>
+                <ul>
+                  {orderToView.cartItems.map((item, index) => (
+                    <li key={index} className="cart-item">
+                      <p className="text-lg font-semibold">{item.name}</p>
+                      <p className="text-sm">Prix: {item.price} DA</p>
+                      <p className="text-sm">Quantité: {item.quantity}</p>
+                      {item.size && (
+                        <p className="text-sm">Taille: {item.size}</p>
+                      )}
+                      {item.color && (
+                        <p className="text-sm">Couleur: {item.color}</p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {orderToView?.productInfo?.name && (
+              <div>
+                <p className="text-sm text-gray-600">Nom du Produit:</p>
+                <p className="text-lg font-semibold">
+                  {orderToView?.productInfo?.name}
+                </p>
+              </div>
+            )}
+            {orderToView?.productInfo?.price && (
+              <div>
+                <p className="text-sm text-gray-600">
+                  Prix du Produit à l&apos;achat:
+                </p>
+                <p className="text-lg font-semibold">
+                  {orderToView?.productInfo?.price}
+                </p>
+              </div>
+            )}
 
             <div>
               <p className="text-sm text-gray-600">Wilaya:</p>
@@ -256,12 +301,14 @@ const Orders = () => {
                 <p className="text-lg font-semibold">{orderToView?.size}</p>
               </div>
             )}
-           
+
+{orderToView?.quantity && (
 
             <div>
               <p className="text-sm text-gray-600">Quantité:</p>
               <p className="text-lg font-semibold">{orderToView?.quantity}</p>
             </div>
+            )}
 
             {orderToView?.color && (
               <div>
@@ -286,11 +333,12 @@ const Orders = () => {
 
             {orderToView?.orderTotal && (
               <div>
-                <p className="text-sm text-gray-600">Total:</p> 
-                <p className="text-lg font-semibold">{orderToView?.orderTotal} DA</p>
+                <p className="text-sm text-gray-600">Total:</p>
+                <p className="text-lg font-semibold">
+                  {orderToView?.orderTotal} DA
+                </p>
               </div>
             )}
-
           </div>
 
           <div className="flex items-center gap-3">
@@ -308,7 +356,7 @@ const Orders = () => {
               disabled={loading}
               onClick={deleteOrder}
               type="button"
-              className="mt-4 bg-red-600 flex w-full justify-center items-center gap-2 text-white disabled:bg-purple-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-blue"
+              className="mt-4 bg-red-600 flex w-full justify-center items-center gap-2 text-white disabled:bg-red-400 disabled:scale-100 active:scale-95 cursor-pointer transition px-4 py-2 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-blue"
             >
               <i className="fa-solid fa-trash"></i>
               <p className="text-lg font-bold">Supprimer</p>

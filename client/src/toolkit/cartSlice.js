@@ -10,10 +10,13 @@ const cartSlice = createSlice({
       state.items.push(action.payload);
     },
     removeItem: (state, action) => {
-      state.items = state.items.filter((item) => item !== action.payload);
+      state.items = state.items.filter((item) => item.productSlug !== action.payload);
     },
+    emptyCart : (state)=> {
+      state.items = []
+    }
   },
 });
 
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem ,emptyCart} = cartSlice.actions;
 export default cartSlice.reducer;

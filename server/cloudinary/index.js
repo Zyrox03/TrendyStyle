@@ -10,8 +10,8 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: 'Top Shoe DZ',
-        allowedFormats: ['jpeg', 'jpg', 'png']
+        folder: 'Trendy Style',
+        allowedFormats: ['jpeg', 'jpg', 'png', 'webp'],
     }
 })
 

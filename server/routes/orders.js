@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
     // Respond with the saved order data
     res.status(201).json({ savedOrder });
 
-    const emailSubject = "Nouvelle Commande - Top Shoes DZ";
+    const emailSubject = "Nouvelle Commande - Trendy Style";
     const emailBody = `
         <html>
           <head>
@@ -112,10 +112,133 @@ router.post("/", async (req, res) => {
               <div class="footer">
                 <p>Merci pour votre commande!</p>
                 <p>Cette notification est envoyée au propriétaire du magasin.</p>
-                <p>TopShoes</p>
+                <p>Trendy Style</p>
               </div>
             </div>
           </body>
+        </html>
+      `;
+
+    await sendEmailNotification(emailSubject, emailBody);
+  } catch (error) {
+    console.error("Error handling order submission:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post("/cart", async (req, res) => {
+  try {
+    const {
+      name,
+      phone,
+      wilaya,
+      baladiya,
+      deliveryOption,
+      notes,
+      cartItems,
+      orderTotal
+    } = req.body;
+
+    // const deliveryPrice = deliveryOption.livraisonPrice;
+    // const productPrice = productInfo.price;
+    // const orderTotal = productPrice * quantity + deliveryPrice;
+
+
+    // // Create a new order using the Order model
+    const newOrder = new Order({
+      name,
+      phone,
+      wilaya,
+      baladiya,
+      deliveryOption,
+      notes,
+      cartItems,
+      orderTotal,
+    });
+
+    // // Save the order to the database
+    const savedOrder = await newOrder.save();
+
+    // Respond with the saved order data
+    res.status(201).json({ savedOrder});
+
+    const emailSubject = "Nouvelle Commande - Trendy Style";
+    const emailBody = `
+        <html>
+          <head>
+            <style>
+              body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f2f2f2;
+                color: #333333;
+                padding: 20px;
+              }
+              .container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+              h2 {
+                color: #4285f4;
+              }
+              p {
+                margin-bottom: 15px;
+              }
+
+              .preserve-space {
+                white-space: pre-line;
+              }
+
+              .footer {
+                margin-top: 20px;
+                color: #777777;
+              }
+
+              .item {
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+        
+            .item-details {
+                font-size: 14px;
+            }
+            </style>
+          </head>
+          <body>
+          <div class="container">
+              <h2>Nouvelle commande</h2>
+              <p>Nom: ${name}</p>
+              <p>Téléphone: ${phone}</p>
+              <p>Wilaya: ${wilaya}</p>
+              <p>Baladiya: ${baladiya}</p>
+              <p>Informations sur la commande:</p>
+              <ul>
+              ${cartItems.map(item => `
+                <li class="item">
+                    <div class="item-details">
+                        <p>Nom du produit: ${item.name}</p>
+                        <p>Prix unitaire: ${item.price} DA</p>
+                        <p>Quantité: ${item.quantity}</p>
+                        ${item.size ? `<p>Taille: ${item.size}</p>` : ''}
+                        ${item.color ? `<p>Couleur: ${item.color}</p>` : ''}
+                    </div>
+                </li>
+            `).join('')}
+              </ul>
+              <p class="preserve-space">Notes: <br/> ${notes}</p>
+              <p>Total de la commande: ${orderTotal} DA</p>
+              <div class="footer">
+                  <p>Merci pour votre commande!</p>
+                  <p>Cette notification est envoyée au propriétaire du magasin.</p>
+                  <p>Trendy Style</p>
+              </div>
+          </div>
+      </body>
+      
         </html>
       `;
 

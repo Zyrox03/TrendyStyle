@@ -584,13 +584,14 @@ const ProductDetailsAdmin = () => {
                     <div
                       key={index}
                       onClick={() => deleteImage(image.image.path)}
-                      className="w-[45%] h-40 bg-purple-500 text-white hover:bg-red-500 transition cursor-pointer shadow-lg flex justify-center items-center rounded-xl p-2"
+                      className="w-[45%] h-40 flex-col bg-purple-500 text-white hover:bg-red-500 transition cursor-pointer shadow-lg flex justify-center items-center rounded-xl p-2"
                     >
                       <img
                         src={image.image.path || image.path}
                         className="w-full h-full object-cover"
                         alt=""
                       />
+
                     </div>
                   ))}
 
